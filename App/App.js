@@ -1,26 +1,47 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+
+import DayScreen from "./screens/DayScreen";
+
+// const db = openDatabase({ name: "mainDB" });
+
+const color = "black";
+const categories = [
+   { name: "Back", color },
+   { name: "Biceps", color },
+   { name: "Chest", color },
+   { name: "Core", color },
+   { name: "Shoulders", color },
+   { name: "Triceps", color }
+];
+
+const getCategory = input => categories[categories.findIndex(({ name }) => name === input)];
+
+const date = new Date();
+const yyyy = date.getFullYear();
+const mm = date.getMonth();
+
+const exercises = [
+   {
+      name: "Chin Ups",
+      category: getCategory("Back"),
+      type: "Reps"
+   },
+   {
+      name: "Barbell Incline Press",
+      category: getCategory("Chest"),
+      type: "Reps"
+   },
+   {
+      name: "OHP",
+      category: getCategory("Shoulders"),
+      type: "Reps"
+   }
+].map((exercise, index) => ({
+   id: index,
+   date: `${yyyy}-${mm}-${date.getDay() + index}`,
+   ...exercise
+}));
 
 export default function App() {
-   return (
-      <View
-         style={[
-            styles.container,
-            {
-               // Try setting `flexDirection` to `"row"`.
-               flexDirection: "column"
-            }
-         ]}
-      >
-         <View style={{ flex: 1, backgroundColor: "red" }} />
-         <View style={{ flex: 2, backgroundColor: "darkorange" }} />
-         <View style={{ flex: 3, backgroundColor: "green" }} />
-      </View>
-   );
+   return <DayScreen exercises={exercises} />;
 }
-
-const styles = StyleSheet.create({
-   container: {
-      flex: 1,
-   }
-});
